@@ -2,7 +2,7 @@ import sys
 import os
 import atexit
 import configparser
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QFrame
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt5.QtGui import QIcon
 from functions import LockFile
 from layouts import MainLayout

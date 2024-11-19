@@ -1,8 +1,8 @@
 import sys
 import os
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMessageBox, QLabel, QVBoxLayout, QWidget
-from PyQt5.QtGui import QIcon, QFont
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QMessageBox, QLabel, QVBoxLayout, QWidget
+from PyQt6.QtGui import QIcon, QFont
 
 
 class LockFile:
@@ -19,13 +19,13 @@ class LockFile:
 
       msg_box.setWindowTitle(self.config['General']['title'])
       msg_box.setWindowIcon(QIcon(self.config['General']['icon']))
-      msg_box.setStandardButtons(QMessageBox.Ok)
+      msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
 
       label = QLabel('アプリケーションは既に実行中です。')
       font = QFont()
       font.setPointSize(10)
       label.setFont(font)
-      label.setAlignment(Qt.AlignCenter)
+      label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
       layout = QVBoxLayout()
       layout.addWidget(label)
@@ -33,7 +33,7 @@ class LockFile:
       layout_widget.setLayout(layout)
 
       msg_box.layout().addWidget(layout_widget, 0, 0, 1, msg_box.layout().columnCount())
-      msg_box.exec_()
+      msg_box.exec()
 
       sys.exit(1)
     else:

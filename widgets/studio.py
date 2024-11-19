@@ -1,8 +1,8 @@
 import os
 import configparser
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QGroupBox
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QGroupBox
 from functools import partial
 import events.button_events as button_events
 

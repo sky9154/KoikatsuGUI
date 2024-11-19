@@ -2,10 +2,10 @@ import sys
 import os
 import atexit
 import configparser
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
-from PyQt5.QtGui import QIcon
+from PyQt6.QtWidgets import QApplication, QMainWindow, QMenuBar, QWidget, QStackedWidget, QHBoxLayout
+from PyQt6.QtGui import QIcon, QAction
 from functions import LockFile
-from layouts import MainLayout
+from pages import HomePage, ModPage, CharacterPage
 
 
 class MainWindow(QMainWindow):
@@ -16,10 +16,34 @@ class MainWindow(QMainWindow):
     self.setWindowIcon(QIcon(config['General']['icon']))
     self.setFixedSize(int(config['General']['width']), int(config['General']['height']))
 
+    self.menu_bar = QMenuBar(self)
+    self.setMenuBar(self.menu_bar)
+
+    page_names = config['Page']
+    pages = [
+      (page_names['home'], HomePage),
+      (page_names['mod'], ModPage),
+      (page_names['character'], CharacterPage)
+    ]
+
+    self.stack = QStackedWidget()
+
     central_widget = QWidget()
     self.setCentralWidget(central_widget)
 
-    MainLayout(central_widget, config)
+    for index, (name, PageClass) in enumerate(pages):
+      action = QAction(name, self)
+      self.menu_bar.addAction(action)
+      action.triggered.connect(lambda checked, idx=index: self.display_page(idx))
+      page = PageClass(config=config)
+      self.stack.addWidget(page)
+
+    hbox = QHBoxLayout()
+    hbox.addWidget(self.stack)
+    central_widget.setLayout(hbox)
+
+  def display_page(self, index):
+    self.stack.setCurrentIndex(index)
 
 if __name__ == '__main__':
   app = QApplication(sys.argv)

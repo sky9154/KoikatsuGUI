@@ -4,10 +4,10 @@ from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QGroupBox
 from functools import partial
-import events.button_events as button_events
+from functions import OpenFile
 
 
-class StudioWidget(QWidget):
+class CharacterDesignWidget(QWidget):
   def __init__(self, main_config):
     super().__init__()
 
@@ -18,7 +18,7 @@ class StudioWidget(QWidget):
 
     layout = QVBoxLayout()
 
-    cover_image_path = os.path.join(main_config['Paths']['images'], widget_config['CoverImage']['studio'])
+    cover_image_path = os.path.join(main_config['Paths']['images'], widget_config['CoverImage']['character_design'])
 
     cover_image = QPixmap(cover_image_path)
     cover_image = cover_image.scaled(128, 128)
@@ -34,10 +34,10 @@ class StudioWidget(QWidget):
     layout.addLayout(hbox_image)
     layout.addSpacing(20)
 
-    button_group = QGroupBox(widget_config['General']['studio_title'])
+    character_design_group = QGroupBox(widget_config['General']['character_design_title'])
     button_layout = QVBoxLayout()
 
-    for button_id, button_text in widget_config['StudioButton'].items():
+    for button_id, button_text in widget_config['CharacterDesignButton'].items():
       button = QPushButton(button_text, self)
 
       button.setObjectName(button_id)
@@ -45,10 +45,12 @@ class StudioWidget(QWidget):
 
       button_layout.addWidget(button)
 
-      button.clicked.connect(partial(button_events.open, 'Studio', main_config, button_id))
+      open_file = OpenFile(main_config)
 
-    button_group.setLayout(button_layout)
-    layout.addWidget(button_group)
+      button.clicked.connect(partial(open_file.open, 'CharacterDesign', button_id))
+
+    character_design_group.setLayout(button_layout)
+    layout.addWidget(character_design_group)
 
     layout.setSpacing(10)
     layout.addStretch()

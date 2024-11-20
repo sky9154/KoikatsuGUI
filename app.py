@@ -3,7 +3,7 @@ import os
 import atexit
 import configparser
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMenuBar, QWidget, QStackedWidget, QHBoxLayout
-from PyQt6.QtGui import QIcon, QAction
+from PyQt6.QtGui import QIcon, QAction, QFontDatabase, QFont
 from functions import LockFile
 from pages import HomePage, ModPage, CharacterPage
 
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
     self.menu_bar = QMenuBar(self)
     self.setMenuBar(self.menu_bar)
 
-    page_names = config['Page']
+    page_names = config['Pages']
     pages = [
       (page_names['home'], HomePage),
       (page_names['mod'], ModPage),

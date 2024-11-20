@@ -39,7 +39,6 @@ class StudioWidget(QWidget):
 
     for button_id, button_text in widget_config['StudioButton'].items():
       button = QPushButton(button_text, self)
-
       button.setObjectName(button_id)
       button.setFixedHeight(50)
 

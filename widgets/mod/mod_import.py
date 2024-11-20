@@ -3,7 +3,7 @@ import configparser
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGroupBox, QLineEdit, QPushButton
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from functions import DragFile
+from functions import DragFile, ReadMod
 
 
 class ModImportWidget(QWidget):
@@ -37,14 +37,14 @@ class ModImportWidget(QWidget):
     button_layout = QVBoxLayout()
 
     drag_file = DragFile()
-
     drag_file.setFixedHeight(50)
+    drag_file.setCursor(Qt.CursorShape.CustomCursor)
     drag_file.setPlaceholderText(widget_config['ModImport']['drag_file'])
     drag_file.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
     file_path_button = QPushButton(widget_config['ModImport']['print_file_path'], self)
     file_path_button.setFixedHeight(50)
-    file_path_button.clicked.connect(lambda: print(drag_file.text()))
+    file_path_button.clicked.connect(lambda: self.get_mod_info(drag_file.text()))
 
     button_layout.addWidget(drag_file)
     button_layout.addWidget(file_path_button)
@@ -56,3 +56,9 @@ class ModImportWidget(QWidget):
     layout.addStretch()
 
     self.setLayout(layout)
+
+  def get_mod_info(self, file_path):
+    mod = ReadMod(file_path)
+    mod.get_info()
+
+    print(mod.mod_info)

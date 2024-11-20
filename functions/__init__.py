@@ -1,1 +1,1 @@
-from .file import LockFile, DragFile, OpenFile
+from .file import LockFile, DragFile, OpenFile, ReadMod

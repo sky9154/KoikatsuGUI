@@ -39,7 +39,6 @@ class SystemWidget(QWidget):
 
     for button_id, button_text in widget_config['SystemButton'].items():
       button = QPushButton(button_text, self)
-
       button.setObjectName(button_id)
       button.setFixedHeight(50)
 

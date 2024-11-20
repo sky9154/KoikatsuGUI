@@ -1,6 +1,8 @@
 import sys
 import os
 import configparser
+import zipfile
+import xml.etree.ElementTree as ET
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QMessageBox, QLineEdit, QLabel, QVBoxLayout, QWidget
 from PyQt6.QtGui import QIcon, QFont, QDragEnterEvent, QDropEvent
@@ -54,6 +56,12 @@ class DragFile(QLineEdit):
     self.setAcceptDrops(True)
     self.file_path = None
 
+  def is_mod_file(self, file_path):
+    file_extension = os.path.splitext(file_path)[1]
+    mod_extensions = ['.zip', '.zipmod']
+
+    return file_extension in mod_extensions
+
   def dragEnterEvent(self, event: QDragEnterEvent):
     if event.mimeData().hasUrls():
       event.acceptProposedAction()
@@ -61,7 +69,13 @@ class DragFile(QLineEdit):
   def dropEvent(self, event: QDropEvent):
     if event.mimeData().hasUrls():
       self.file_path = event.mimeData().urls()[0].toLocalFile()
-      self.setText(self.file_path)
+
+      if not self.is_mod_file(self.file_path):
+        event.ignore()
+
+        return
+      else:
+        self.setText(self.file_path)
 
       event.acceptProposedAction()
 
@@ -82,3 +96,17 @@ class OpenFile:
     button_event = button_id.replace('_button', '')
     self.event_config[event][button_event] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][button_event])
     os.startfile(self.event_config[event][button_event])
+
+class ReadMod:
+  def __init__(self, file_path):
+    self.file_path = file_path
+    self.mod_info = {}
+
+  def get_info(self):
+    with zipfile.ZipFile(self.file_path, 'r') as zipmod:
+      with zipmod.open('manifest.xml') as manifest:
+        tree = ET.parse(manifest)
+        root = tree.getroot()
+
+        for child in root:
+          self.mod_info[child.tag] = child.text

@@ -50,15 +50,15 @@ class LockFile:
 
 
 class DragFile(QLineEdit):
-  def __init__(self, parent=None):
-    super().__init__(parent)
+  def __init__(self):
+    super().__init__()
 
     self.setAcceptDrops(True)
     self.file_path = None
 
   def is_mod_file(self, file_path):
     file_extension = os.path.splitext(file_path)[1]
-    mod_extensions = ['.zip', '.zipmod']
+    mod_extensions = ['.zip', 'rar', '7z', '.zipmod']
 
     return file_extension in mod_extensions
 
@@ -88,6 +88,7 @@ class OpenFile:
   def load_event_config(self):
     event_config_path = os.path.join(self.main_config['Paths']['config'], 'event_config.ini')
     event_config = configparser.ConfigParser()
+
     event_config.read(event_config_path)
 
     return event_config
@@ -95,7 +96,9 @@ class OpenFile:
   def open(self, event, button_id):
     button_event = button_id.replace('_button', '')
     self.event_config[event][button_event] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][button_event])
+
     os.startfile(self.event_config[event][button_event])
+
 
 class ReadMod:
   def __init__(self, file_path):

@@ -3,7 +3,7 @@ import os
 import atexit
 import configparser
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMenuBar, QWidget, QStackedWidget, QHBoxLayout
-from PyQt6.QtGui import QIcon, QAction, QFontDatabase, QFont
+from PyQt6.QtGui import QIcon, QFont, QAction
 from functions import LockFile
 from pages import HomePage, ModPage, CharacterPage
 
@@ -16,8 +16,8 @@ class MainWindow(QMainWindow):
     self.setWindowIcon(QIcon(config['General']['icon']))
     self.setFixedSize(int(config['General']['width']), int(config['General']['height']))
 
-    self.menu_bar = QMenuBar(self)
-    self.setMenuBar(self.menu_bar)
+    menu_bar = QMenuBar(self)
+    self.setMenuBar(menu_bar)
 
     page_names = config['Pages']
     pages = [
@@ -33,8 +33,10 @@ class MainWindow(QMainWindow):
 
     for index, (name, PageClass) in enumerate(pages):
       action = QAction(name, self)
-      self.menu_bar.addAction(action)
-      action.triggered.connect(lambda checked, idx=index: self.display_page(idx))
+      action.triggered.connect(lambda checked, index=index: self.display_page(index))
+
+      menu_bar.addAction(action)
+
       page = PageClass(config=config)
       self.stack.addWidget(page)
 

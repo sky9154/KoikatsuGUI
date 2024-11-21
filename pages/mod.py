@@ -1,19 +1,23 @@
 from PyQt6.QtWidgets import QWidget, QGridLayout, QFrame
-from widgets import ModImportWidget
+from widgets import LoadModWidget, ModInfoWidget
 
 
 class ModPage(QWidget):
-  def __init__(self, parent=None, config=None):
-    super().__init__(parent)
+  def __init__(self, config=None):
+    super().__init__()
 
     self.layout = QGridLayout()
     self.setLayout(self.layout)
 
-    self.system_widget = ModImportWidget(config)
+    load_mod = LoadModWidget(config)
+    mod_info = ModInfoWidget(config)
 
-    self.line = QFrame()
-    self.line.setFrameShape(QFrame.Shape.VLine)
-    self.line.setStyleSheet('color: gray;')
+    line = QFrame()
+    line.setFrameShape(QFrame.Shape.VLine)
+    line.setStyleSheet('color: gray;')
 
-    self.layout.addWidget(self.system_widget, 0, 0)
-    # self.layout.addWidget(self.line, 0, 1)
+    self.layout.addWidget(load_mod, 0, 0)
+    self.layout.addWidget(line, 0, 1)
+    self.layout.addWidget(mod_info, 0, 2)
+
+    load_mod.mod_info.connect(mod_info.update_info)

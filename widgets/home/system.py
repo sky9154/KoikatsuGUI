@@ -1,7 +1,7 @@
 import os
 import configparser
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QFont
 from PyQt6.QtWidgets import QGroupBox
 from functools import partial
 from functions import OpenFile
@@ -35,20 +35,22 @@ class SystemWidget(QWidget):
     layout.addSpacing(20)
 
     system_group = QGroupBox(widget_config['General']['system_title'])
-    button_layout = QVBoxLayout()
+    system_group.setFont(QFont(system_group.font().family(), 12))
 
-    for button_id, button_text in widget_config['SystemButton'].items():
-      button = QPushButton(button_text, self)
-      button.setObjectName(button_id)
+    system_layout = QVBoxLayout()
+
+    for name, value in widget_config['SystemButton'].items():
+      button = QPushButton(value, self)
       button.setFixedHeight(50)
+      button.setFont(QFont(button.font().family(), 10))
 
-      button_layout.addWidget(button)
+      system_layout.addWidget(button)
 
       open_file = OpenFile(main_config)
 
-      button.clicked.connect(partial(open_file.open, 'System', button_id))
+      button.clicked.connect(partial(open_file.open, 'System', name))
 
-    system_group.setLayout(button_layout)
+    system_group.setLayout(system_layout)
     layout.addWidget(system_group)
 
     layout.setSpacing(10)

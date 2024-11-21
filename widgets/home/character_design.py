@@ -1,7 +1,7 @@
 import os
 import configparser
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QFont
 from PyQt6.QtWidgets import QGroupBox
 from functools import partial
 from functions import OpenFile
@@ -35,20 +35,22 @@ class CharacterDesignWidget(QWidget):
     layout.addSpacing(20)
 
     character_design_group = QGroupBox(widget_config['General']['character_design_title'])
-    button_layout = QVBoxLayout()
+    character_design_group.setFont(QFont(character_design_group.font().family(), 12))
 
-    for button_id, button_text in widget_config['CharacterDesignButton'].items():
-      button = QPushButton(button_text, self)
-      button.setObjectName(button_id)
+    character_layout = QVBoxLayout()
+
+    for name, value in widget_config['CharacterDesignButton'].items():
+      button = QPushButton(value, self)
       button.setFixedHeight(50)
+      button.setFont(QFont(button.font().family(), 10))
 
-      button_layout.addWidget(button)
+      character_layout.addWidget(button)
 
       open_file = OpenFile(main_config)
 
-      button.clicked.connect(partial(open_file.open, 'CharacterDesign', button_id))
+      button.clicked.connect(partial(open_file.open, 'CharacterDesign', name))
 
-    character_design_group.setLayout(button_layout)
+    character_design_group.setLayout(character_layout)
     layout.addWidget(character_design_group)
 
     layout.setSpacing(10)

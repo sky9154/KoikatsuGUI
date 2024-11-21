@@ -3,26 +3,26 @@ from widgets import SystemWidget, CharacterDesignWidget, StudioWidget
 
 
 class HomePage(QWidget):
-  def __init__(self, parent=None, config=None):
-    super().__init__(parent)
+  def __init__(self, config=None):
+    super().__init__()
 
     self.layout = QGridLayout()
     self.setLayout(self.layout)
 
-    self.system_widget = SystemWidget(config)
-    self.character_design_widget = CharacterDesignWidget(config)
-    self.studio_widget = StudioWidget(config)
+    system = SystemWidget(config)
+    character_design = CharacterDesignWidget(config)
+    studio = StudioWidget(config)
 
-    self.line1 = QFrame()
-    self.line1.setFrameShape(QFrame.Shape.VLine)
-    self.line1.setStyleSheet('color: gray;')
+    line1 = QFrame()
+    line1.setFrameShape(QFrame.Shape.VLine)
+    line1.setStyleSheet('color: gray;')
 
-    self.line2 = QFrame()
-    self.line2.setFrameShape(QFrame.Shape.VLine)
-    self.line2.setStyleSheet('color: gray;')
+    line2 = QFrame()
+    line2.setFrameShape(QFrame.Shape.VLine)
+    line2.setStyleSheet('color: gray;')
 
-    self.layout.addWidget(self.system_widget, 0, 0)
-    self.layout.addWidget(self.line1, 0, 1)
-    self.layout.addWidget(self.character_design_widget, 0, 2)
-    self.layout.addWidget(self.line2, 0, 3)
-    self.layout.addWidget(self.studio_widget, 0, 4)
+    self.layout.addWidget(system, 0, 0)
+    self.layout.addWidget(line1, 0, 1)
+    self.layout.addWidget(character_design, 0, 2)
+    self.layout.addWidget(line2, 0, 3)
+    self.layout.addWidget(studio, 0, 4)

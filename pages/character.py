@@ -3,11 +3,11 @@ from widgets import SystemWidget, CharacterDesignWidget, StudioWidget
 
 
 class CharacterPage(QWidget):
-  def __init__(self, parent=None, config=None):
-    super().__init__(parent)
+  def __init__(self, config=None):
+    super().__init__()
 
     self.layout = QVBoxLayout()
     self.setLayout(self.layout)
 
-    self.label = QLabel('Character Page')
+    self.label = QLabel('')
     self.layout.addWidget(self.label)

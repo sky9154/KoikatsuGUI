@@ -93,12 +93,17 @@ class OpenFile:
 
     return event_config
 
-  def open(self, event, button_id):
-    button_event = button_id.replace('_button', '')
-    self.event_config[event][button_event] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][button_event])
+  def open(self, event, value):
+    if event == 'mod_folder':
+      mod_folder = os.path.join(self.main_config['Paths']['main'], self.event_config['System']['mods'])
+      mod_author_folder = os.path.join(mod_folder, 'MyMods', value)
 
-    os.startfile(self.event_config[event][button_event])
+      os.startfile(mod_author_folder if os.path.exists(mod_author_folder) else mod_folder)
+    else:
+      button_event = value.replace('_button', '')
+      self.event_config[event][button_event] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][button_event])
 
+      os.startfile(self.event_config[event][button_event])
 
 class ReadMod:
   def __init__(self, file_path):
@@ -112,4 +117,6 @@ class ReadMod:
         root = tree.getroot()
 
         for child in root:
-          self.mod_info[child.tag] = child.text
+          self.mod_info[child.tag] = child.text.strip() if child.text else 'None'
+
+    return self.mod_info

@@ -3,7 +3,7 @@ import os
 import atexit
 import configparser
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMenuBar, QWidget, QStackedWidget, QHBoxLayout
-from PyQt6.QtGui import QIcon, QFont, QAction
+from PyQt6.QtGui import QIcon, QAction
 from functions import LockFile
 from pages import HomePage, ModPage, CharacterPage
 

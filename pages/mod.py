@@ -1,16 +1,16 @@
 from PyQt6.QtWidgets import QWidget, QGridLayout, QFrame
-from widgets import LoadModWidget, ModInfoWidget
+from layouts import LoadModLayout, ModInfoLayout
 
 
 class ModPage(QWidget):
-  def __init__(self, config=None):
+  def __init__(self, config):
     super().__init__()
 
     self.layout = QGridLayout()
     self.setLayout(self.layout)
 
-    load_mod = LoadModWidget(config)
-    mod_info = ModInfoWidget(config)
+    load_mod = LoadModLayout(config)
+    mod_info = ModInfoLayout(config)
 
     line = QFrame()
     line.setFrameShape(QFrame.Shape.VLine)

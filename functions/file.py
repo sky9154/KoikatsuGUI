@@ -70,12 +70,12 @@ class DragFile(QLineEdit):
     if event.mimeData().hasUrls():
       self.file_path = event.mimeData().urls()[0].toLocalFile()
 
-      if not self.is_mod_file(self.file_path):
+      if self.is_mod_file(self.file_path):
+        self.setText(self.file_path)
+      else:
         event.ignore()
 
         return
-      else:
-        self.setText(self.file_path)
 
       event.acceptProposedAction()
 
@@ -100,10 +100,9 @@ class OpenFile:
 
       os.startfile(mod_author_folder if os.path.exists(mod_author_folder) else mod_folder)
     else:
-      button_event = value.replace('_button', '')
-      self.event_config[event][button_event] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][button_event])
+      self.event_config[event][value] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][value])
 
-      os.startfile(self.event_config[event][button_event])
+      os.startfile(self.event_config[event][value])
 
 class ReadMod:
   def __init__(self, file_path):

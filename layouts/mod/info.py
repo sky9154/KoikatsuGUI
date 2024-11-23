@@ -1,11 +1,12 @@
 import os
 import configparser
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGroupBox, QLineEdit
-from PyQt6.QtGui import QPixmap, QFont
+from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+from widgets import CoverImage
 
 
-class ModInfoWidget(QWidget):
+class ModInfoLayout(QWidget):
   def __init__(self, main_config):
     super().__init__()
 
@@ -14,23 +15,8 @@ class ModInfoWidget(QWidget):
     widget_config = configparser.ConfigParser()
     widget_config.read(widget_config_path)
 
-    layout = QVBoxLayout(self)
-
-    cover_image_path = os.path.join(main_config['Paths']['images'], widget_config['CoverImage']['mod_info'])
-
-    cover_image = QPixmap(cover_image_path)
-    cover_image = cover_image.scaled(128, 128)
-
-    label = QLabel(self)
-    label.setPixmap(cover_image)
-
-    hbox_image = QHBoxLayout()
-    hbox_image.addStretch(1)
-    hbox_image.addWidget(label)
-    hbox_image.addStretch(1)
-
-    layout.addLayout(hbox_image)
-    layout.addSpacing(20)
+    cover_image = CoverImage(main_config, 'mod_info')
+    cover_image = cover_image.initUI()
 
     mod_info_group = QGroupBox(widget_config['General']['mod_info_title'])
     mod_info_group.setFont(QFont(mod_info_group.font().family(), 12))
@@ -61,8 +47,11 @@ class ModInfoWidget(QWidget):
       mod_info_layout.addLayout(hbox_name)
 
     mod_info_group.setLayout(mod_info_layout)
-    layout.addWidget(mod_info_group)
 
+    layout = QVBoxLayout(self)
+    layout.addLayout(cover_image)
+    layout.addSpacing(20)
+    layout.addWidget(mod_info_group)
     layout.setSpacing(10)
     layout.addStretch()
 

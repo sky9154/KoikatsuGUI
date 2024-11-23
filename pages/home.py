@@ -1,17 +1,17 @@
 from PyQt6.QtWidgets import QWidget, QGridLayout, QFrame
-from widgets import SystemWidget, CharacterDesignWidget, StudioWidget
+from layouts import SystemLayout, CharacterDesignLayout, StudioLayout
 
 
 class HomePage(QWidget):
-  def __init__(self, config=None):
+  def __init__(self, config):
     super().__init__()
 
     self.layout = QGridLayout()
     self.setLayout(self.layout)
 
-    system = SystemWidget(config)
-    character_design = CharacterDesignWidget(config)
-    studio = StudioWidget(config)
+    system = SystemLayout(config)
+    character_design = CharacterDesignLayout(config)
+    studio = StudioLayout(config)
 
     line1 = QFrame()
     line1.setFrameShape(QFrame.Shape.VLine)

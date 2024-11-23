@@ -1,12 +1,13 @@
 import os
 import configparser
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGroupBox, QPushButton
-from PyQt6.QtGui import QPixmap, QFont
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QPushButton
+from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, pyqtSignal
+from widgets import CoverImage
 from functions import OpenFile, DragFile, ReadMod
 
 
-class LoadModWidget(QWidget):
+class LoadModLayout(QWidget):
   mod_info = pyqtSignal(dict)
 
   def __init__(self, main_config):
@@ -20,23 +21,8 @@ class LoadModWidget(QWidget):
     widget_config = configparser.ConfigParser()
     widget_config.read(widget_config_path)
 
-    layout = QVBoxLayout(self)
-
-    cover_image_path = os.path.join(self.main_config['Paths']['images'], widget_config['CoverImage']['load_mod'])
-
-    cover_image = QPixmap(cover_image_path)
-    cover_image = cover_image.scaled(128, 128)
-
-    label = QLabel(self)
-    label.setPixmap(cover_image)
-
-    hbox_image = QHBoxLayout()
-    hbox_image.addStretch(1)
-    hbox_image.addWidget(label)
-    hbox_image.addStretch(1)
-
-    layout.addLayout(hbox_image)
-    layout.addSpacing(20)
+    cover_image = CoverImage(main_config, 'load_mod')
+    cover_image = cover_image.initUI()
 
     load_mod_group = QGroupBox(widget_config['General']['load_mod_title'])
     load_mod_layout = QVBoxLayout()
@@ -65,8 +51,10 @@ class LoadModWidget(QWidget):
     load_mod_group.setLayout(load_mod_layout)
     load_mod_group.setFont(QFont(load_mod_group.font().family(), 12))
 
+    layout = QVBoxLayout(self)
+    layout.addLayout(cover_image)
+    layout.addSpacing(20)
     layout.addWidget(load_mod_group)
-
     layout.setSpacing(10)
     layout.addStretch()
 

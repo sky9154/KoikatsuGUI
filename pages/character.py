@@ -1,9 +1,8 @@
-from PyQt6.QtWidgets import QGridLayout, QWidget, QLabel, QVBoxLayout
-from widgets import SystemWidget, CharacterDesignWidget, StudioWidget
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
 
 
 class CharacterPage(QWidget):
-  def __init__(self, config=None):
+  def __init__(self):
     super().__init__()
 
     self.layout = QVBoxLayout()

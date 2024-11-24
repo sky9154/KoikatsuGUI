@@ -3,6 +3,7 @@ from layouts import SystemLayout, CharacterDesignLayout, StudioLayout
 
 
 class HomePage(QWidget):
+
   def __init__(self, config):
     super().__init__()
 

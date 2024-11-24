@@ -7,10 +7,12 @@ from widgets import CoverImage
 
 
 class ModInfoLayout(QWidget):
+
   def __init__(self, main_config):
     super().__init__()
 
-    widget_config_path = os.path.join(main_config['Paths']['config'], 'widget_config.ini')
+    widget_config_path = os.path.join(main_config['Paths']['config'],
+                                      'widget_config.ini')
 
     widget_config = configparser.ConfigParser()
     widget_config.read(widget_config_path)

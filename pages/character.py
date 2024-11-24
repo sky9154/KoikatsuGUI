@@ -2,7 +2,8 @@ from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
 
 
 class CharacterPage(QWidget):
-  def __init__(self):
+
+  def __init__(self, config):
     super().__init__()
 
     self.layout = QVBoxLayout()

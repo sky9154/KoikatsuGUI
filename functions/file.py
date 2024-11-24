@@ -9,6 +9,7 @@ from PyQt6.QtGui import QIcon, QFont, QDragEnterEvent, QDropEvent
 
 
 class LockFile:
+
   def __init__(self, app, config, lock_file_path):
     self.app = app
     self.config = config
@@ -35,10 +36,11 @@ class LockFile:
       layout_widget = QWidget()
       layout_widget.setLayout(layout)
 
-      msg_box.layout().addWidget(layout_widget, 0, 0, 1, msg_box.layout().columnCount())
+      msg_box.layout().addWidget(layout_widget, 0, 0, 1,
+                                 msg_box.layout().columnCount())
       msg_box.exec()
 
-      sys.exit(1)
+      raise SystemExit(1)
     else:
       with open(self.lock_file_path, 'w') as lock_file:
         lock_file.write(str(os.getpid()))
@@ -50,6 +52,7 @@ class LockFile:
 
 
 class DragFile(QLineEdit):
+
   def __init__(self):
     super().__init__()
 
@@ -81,12 +84,14 @@ class DragFile(QLineEdit):
 
 
 class OpenFile:
+
   def __init__(self, main_config):
     self.main_config = main_config
     self.event_config = self.load_event_config()
 
   def load_event_config(self):
-    event_config_path = os.path.join(self.main_config['Paths']['config'], 'event_config.ini')
+    event_config_path = os.path.join(self.main_config['Paths']['config'],
+                                     'event_config.ini')
     event_config = configparser.ConfigParser()
 
     event_config.read(event_config_path)
@@ -95,16 +100,21 @@ class OpenFile:
 
   def open(self, event, value):
     if event == 'mod_folder':
-      mod_folder = os.path.join(self.main_config['Paths']['main'], self.event_config['System']['mods'])
+      mod_folder = os.path.join(self.main_config['Paths']['main'],
+                                self.event_config['System']['mods'])
       mod_author_folder = os.path.join(mod_folder, 'MyMods', value)
 
-      os.startfile(mod_author_folder if os.path.exists(mod_author_folder) else mod_folder)
+      os.startfile(mod_author_folder if os.path.exists(mod_author_folder
+                                                       ) else mod_folder)
     else:
-      self.event_config[event][value] = os.path.join(self.main_config['Paths']['main'], self.event_config[event][value])
+      self.event_config[event][value] = os.path.join(
+          self.main_config['Paths']['main'], self.event_config[event][value])
 
       os.startfile(self.event_config[event][value])
 
+
 class ReadMod:
+
   def __init__(self, file_path):
     self.file_path = file_path
     self.mod_info = {}
@@ -116,6 +126,7 @@ class ReadMod:
         root = tree.getroot()
 
         for child in root:
-          self.mod_info[child.tag] = child.text.strip() if child.text else 'None'
+          self.mod_info[
+              child.tag] = child.text.strip() if child.text else 'None'
 
     return self.mod_info

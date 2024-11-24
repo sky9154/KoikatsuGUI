@@ -8,15 +8,16 @@ from functions import OpenFile, DragFile, ReadMod
 
 
 class LoadModLayout(QWidget):
-  mod_info = pyqtSignal(dict)
 
   def __init__(self, main_config):
     super().__init__()
 
     self.main_config = main_config
+    self.mod_info = pyqtSignal(dict)
     self.load_mod_info = {}
 
-    widget_config_path = os.path.join(self.main_config['Paths']['config'], 'widget_config.ini')
+    widget_config_path = os.path.join(self.main_config['Paths']['config'],
+                                      'widget_config.ini')
 
     widget_config = configparser.ConfigParser()
     widget_config.read(widget_config_path)
@@ -34,12 +35,15 @@ class LoadModLayout(QWidget):
     drag_file.setFocusPolicy(Qt.FocusPolicy.NoFocus)
     drag_file.setPlaceholderText(widget_config['LoadMod']['drag_mod'])
 
-    file_path_button = QPushButton(widget_config['LoadMod']['get_mod_info'], self)
+    file_path_button = QPushButton(widget_config['LoadMod']['get_mod_info'],
+                                   self)
     file_path_button.setFixedHeight(50)
     file_path_button.setFont(QFont(file_path_button.font().family(), 10))
-    file_path_button.clicked.connect(lambda: self.get_mod_info(drag_file.text()))
+    file_path_button.clicked.connect(
+        lambda: self.get_mod_info(drag_file.text()))
 
-    open_folder_button = QPushButton(widget_config['LoadMod']['open_mod_folder'], self)
+    open_folder_button = QPushButton(
+        widget_config['LoadMod']['open_mod_folder'], self)
     open_folder_button.setFixedHeight(50)
     open_folder_button.setFont(QFont(open_folder_button.font().family(), 10))
     open_folder_button.clicked.connect(lambda: self.open_mod_folder())

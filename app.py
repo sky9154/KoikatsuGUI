@@ -9,22 +9,21 @@ from pages import HomePage, ModPage, CharacterPage
 
 
 class MainWindow(QMainWindow):
+
   def __init__(self, config):
     super().__init__()
 
     self.setWindowTitle(config['General']['title'])
     self.setWindowIcon(QIcon(config['General']['icon']))
-    self.setFixedSize(int(config['General']['width']), int(config['General']['height']))
+    self.setFixedSize(int(config['General']['width']),
+                      int(config['General']['height']))
 
     menu_bar = QMenuBar(self)
     self.setMenuBar(menu_bar)
 
     page_names = config['Pages']
-    pages = [
-      (page_names['home'], HomePage),
-      (page_names['mod'], ModPage),
-      (page_names['character'], CharacterPage)
-    ]
+    pages = [(page_names['home'], HomePage), (page_names['mod'], ModPage),
+             (page_names['character'], CharacterPage)]
 
     self.stack = QStackedWidget()
 
@@ -33,7 +32,8 @@ class MainWindow(QMainWindow):
 
     for index, (name, PageClass) in enumerate(pages):
       action = QAction(name, self)
-      action.triggered.connect(lambda checked, index=index: self.display_page(index))
+      action.triggered.connect(
+          lambda checked, index=index: self.display_page(index))
 
       menu_bar.addAction(action)
 
@@ -47,16 +47,19 @@ class MainWindow(QMainWindow):
   def display_page(self, index):
     self.stack.setCurrentIndex(index)
 
+
 if __name__ == '__main__':
   app = QApplication(sys.argv)
 
-  main_config_path = os.path.join(os.getcwd(), 'assets', 'config', 'main_config.ini')
+  main_config_path = os.path.join(os.getcwd(), 'assets', 'config',
+                                  'main_config.ini')
   lock_file_path = os.path.join(os.getcwd(), 'app.lock')
 
   config = configparser.ConfigParser()
   config.read(main_config_path)
 
-  config['General']['icon'] = os.path.join(config['Paths']['images'], config['General']['icon'])
+  config['General']['icon'] = os.path.join(config['Paths']['images'],
+                                           config['General']['icon'])
 
   lock_file = LockFile(app, config, lock_file_path)
   lock_file.create()

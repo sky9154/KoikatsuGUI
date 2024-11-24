@@ -3,6 +3,7 @@ from layouts import LoadModLayout, ModInfoLayout
 
 
 class ModPage(QWidget):
+
   def __init__(self, config):
     super().__init__()
 

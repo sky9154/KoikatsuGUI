@@ -7,10 +7,12 @@ from widgets import CoverImage, OpenButton
 
 
 class SystemLayout(QWidget):
+
   def __init__(self, main_config):
     super().__init__()
 
-    widget_config_path = os.path.join(main_config['Paths']['config'], 'widget_config.ini')
+    widget_config_path = os.path.join(main_config['Paths']['config'],
+                                      'widget_config.ini')
 
     widget_config = configparser.ConfigParser()
     widget_config.read(widget_config_path)
@@ -24,7 +26,8 @@ class SystemLayout(QWidget):
     system_layout = QVBoxLayout()
 
     for name, value in widget_config['SystemButton'].items():
-      button = OpenButton(main_config, value, 'System', name.replace('_button', ''))
+      button = OpenButton(main_config, value, 'System',
+                          name.replace('_button', ''))
       button = button.initUI()
 
       system_layout.addWidget(button)

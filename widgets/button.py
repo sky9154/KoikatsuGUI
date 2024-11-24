@@ -6,6 +6,7 @@ from functions import OpenFile
 
 
 class OpenButton(QPushButton):
+
   def __init__(self, main_config, name, event, value):
     super().__init__()
 
@@ -24,7 +25,8 @@ class OpenButton(QPushButton):
     return button
 
   def load_widget_config(self):
-    widget_config_path = os.path.join(self.main_config['Paths']['config'], 'widget_config.ini')
+    widget_config_path = os.path.join(self.main_config['Paths']['config'],
+                                      'widget_config.ini')
 
     widget_config = configparser.ConfigParser()
     widget_config.read(widget_config_path)

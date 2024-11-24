@@ -21,4 +21,5 @@ class ModPage(QWidget):
     self.layout.addWidget(line, 0, 1)
     self.layout.addWidget(mod_info, 0, 2)
 
+    load_mod.mod_info.connect(load_mod.update_info)
     load_mod.mod_info.connect(mod_info.update_info)

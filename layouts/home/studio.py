@@ -1,8 +1,7 @@
-import os
-import configparser
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QGroupBox
+from functions import Config
 from widgets import CoverImage, OpenButton
 
 
@@ -11,11 +10,8 @@ class StudioLayout(QWidget):
   def __init__(self, main_config):
     super().__init__()
 
-    widget_config_path = os.path.join(main_config['Paths']['config'],
-                                      'widget_config.ini')
-
-    widget_config = configparser.ConfigParser()
-    widget_config.read(widget_config_path)
+    config = Config(main_config['Paths']['config'])
+    widget_config = config.load_config('widget_config')
 
     cover_image = CoverImage(main_config, 'studio')
     cover_image = cover_image.initUI()

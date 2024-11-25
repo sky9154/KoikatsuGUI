@@ -1,7 +1,6 @@
 import os
-import configparser
 from PyQt6.QtWidgets import QHBoxLayout, QLabel
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QFont
 from functions import Config
 
 
@@ -33,3 +32,18 @@ class CoverImage(QLabel):
     cover_image.addStretch(1)
 
     return cover_image
+
+
+class InfoLabel(QLabel):
+
+  def __init__(self, value):
+    super().__init__()
+
+    self.value = value
+
+  def initUI(self):
+    self.setText(f'{self.value}：')
+    self.setFixedHeight(50)
+    self.setFont(QFont(self.font().family(), 10))
+
+    return self

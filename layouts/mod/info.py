@@ -1,9 +1,9 @@
 import os
 import configparser
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGroupBox, QLineEdit
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox
 from PyQt6.QtGui import QFont
-from PyQt6.QtCore import Qt
-from widgets import CoverImage
+from widgets import CoverImage, InfoLabel, InfoLineEdit
+from functions import Config
 
 
 class ModInfoLayout(QWidget):
@@ -11,11 +11,8 @@ class ModInfoLayout(QWidget):
   def __init__(self, main_config):
     super().__init__()
 
-    widget_config_path = os.path.join(main_config['Paths']['config'],
-                                      'widget_config.ini')
-
-    widget_config = configparser.ConfigParser()
-    widget_config.read(widget_config_path)
+    config = Config(main_config['Paths']['config'])
+    widget_config = config.load_config('widget_config')
 
     cover_image = CoverImage(main_config, 'mod_info')
     cover_image = cover_image.initUI()
@@ -25,26 +22,20 @@ class ModInfoLayout(QWidget):
 
     mod_info_layout = QVBoxLayout()
 
-    self.info_inputs = {}
+    self.info_line_edits = {}
 
     for name, value in widget_config['ModInfo'].items():
-      label = QLabel(f'{value}：', self)
-      label.setFixedHeight(50)
-      label.setFont(QFont(label.font().family(), 10))
+      info_label = InfoLabel(value)
+      info_label = info_label.initUI()
 
-      info_input = QLineEdit(self)
-      info_input.setObjectName(name)
-      info_input.setFixedHeight(40)
-      info_input.setFont(QFont(info_input.font().family(), 10))
-      info_input.setCursor(Qt.CursorShape.CustomCursor)
-      info_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-      info_input.setPlaceholderText(None)
+      info_line_edit = InfoLineEdit(name)
+      info_line_edit = info_line_edit.initUI()
 
-      self.info_inputs[name] = info_input
+      self.info_line_edits[name] = info_line_edit
 
       hbox_name = QHBoxLayout()
-      hbox_name.addWidget(label, 3)
-      hbox_name.addWidget(info_input, 7)
+      hbox_name.addWidget(info_label, 3)
+      hbox_name.addWidget(info_line_edit, 7)
 
       mod_info_layout.addLayout(hbox_name)
 
@@ -61,5 +52,5 @@ class ModInfoLayout(QWidget):
 
   def update_info(self, new_info):
     for name, value in new_info.items():
-      if name in self.info_inputs:
-        self.info_inputs[name].setText(value)
+      if name in self.info_line_edits:
+        self.info_line_edits[name].setText(value)

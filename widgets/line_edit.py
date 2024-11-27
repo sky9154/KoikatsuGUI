@@ -15,7 +15,7 @@ class DragFile(QLineEdit):
     self.widget_config = config.load_config('widget_config')
 
     self.setAcceptDrops(True)
-    self.file_path = None
+    self.mod_path = None
 
   def initUI(self):
     self.setFixedHeight(50)
@@ -23,14 +23,17 @@ class DragFile(QLineEdit):
     self.setCursor(Qt.CursorShape.CustomCursor)
     self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
     self.setPlaceholderText(self.widget_config['LoadMod']['drag_mod'])
-
+    self.setStyleSheet('''
+      border : 0;
+      border-radius: 5px;
+    ''')
     return self
 
-  def is_mod_file(self, file_path):
-    file_extension = os.path.splitext(file_path)[1]
+  def is_mod(self, mod_path):
+    mod_extension = os.path.splitext(mod_path)[1]
     mod_extensions = ['.zip', 'rar', '7z', '.zipmod']
 
-    return file_extension in mod_extensions
+    return mod_extension in mod_extensions
 
   def dragEnterEvent(self, event: QDragEnterEvent):
     if event.mimeData().hasUrls():
@@ -38,10 +41,10 @@ class DragFile(QLineEdit):
 
   def dropEvent(self, event: QDropEvent):
     if event.mimeData().hasUrls():
-      self.file_path = event.mimeData().urls()[0].toLocalFile()
+      self.mod_path = event.mimeData().urls()[0].toLocalFile()
 
-      if self.is_mod_file(self.file_path):
-        self.setText(self.file_path)
+      if self.is_mod(self.mod_path):
+        self.setText(self.mod_path)
       else:
         event.ignore()
 
@@ -61,5 +64,9 @@ class InfoLineEdit(QLineEdit):
     self.setCursor(Qt.CursorShape.CustomCursor)
     self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
     self.setPlaceholderText(None)
+    self.setStyleSheet('''
+      border : 0;
+      border-radius: 5px;
+    ''')
 
     return self

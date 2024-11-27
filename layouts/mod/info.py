@@ -1,5 +1,3 @@
-import os
-import configparser
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox
 from PyQt6.QtGui import QFont
 from widgets import CoverImage, InfoLabel, InfoLineEdit
@@ -33,11 +31,11 @@ class ModInfoLayout(QWidget):
 
       self.info_line_edits[name] = info_line_edit
 
-      hbox_name = QHBoxLayout()
-      hbox_name.addWidget(info_label, 3)
-      hbox_name.addWidget(info_line_edit, 7)
+      info = QHBoxLayout()
+      info.addWidget(info_label, 3)
+      info.addWidget(info_line_edit, 7)
 
-      mod_info_layout.addLayout(hbox_name)
+      mod_info_layout.addLayout(info)
 
     mod_info_group.setLayout(mod_info_layout)
 

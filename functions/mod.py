@@ -4,10 +4,10 @@ import xml.etree.ElementTree as ET
 
 class Mod:
 
-  def read(self, file_path):
+  def read(self, mod_path):
     mod_info = {}
 
-    with zipfile.ZipFile(file_path, 'r') as zipmod:
+    with zipfile.ZipFile(mod_path, 'r') as zipmod:
       with zipmod.open('manifest.xml') as manifest:
         tree = ET.parse(manifest)
         root = tree.getroot()

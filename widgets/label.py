@@ -43,7 +43,7 @@ class InfoLabel(QLabel):
 
   def initUI(self):
     self.setText(f'{self.value}：')
-    self.setFixedHeight(50)
+    self.setFixedHeight(40)
     self.setFont(QFont(self.font().family(), 10))
 
     return self

@@ -1,7 +1,7 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QGroupBox
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import pyqtSignal
-from widgets import CoverImage, DragFile, LoadModButton, OpenButton
+from widgets import CoverImage, DragFile, LoadModButton, OpenButton, DialogModButton
 from functions import Config
 
 
@@ -23,12 +23,15 @@ class LoadModLayout(QWidget):
     load_mod_group = QGroupBox(widget_config['General']['load_mod_title'])
     load_mod_group.setFont(QFont(load_mod_group.font().family(), 12))
 
-    drag_file = DragFile(main_config)
-    drag_file = drag_file.initUI()
+    drag_mod = DragFile(main_config)
+    drag_mod = drag_mod.initUI()
+
+    dialog_mod = DialogModButton(main_config, drag_mod)
+    dialog_mod = dialog_mod.initUI()
 
     load_mod_button = LoadModButton(main_config,
                                     widget_config['LoadMod']['load_mod_info'],
-                                    self.mod_info, drag_file)
+                                    self.mod_info, drag_mod)
     load_mod_button = load_mod_button.initUI()
 
     open_folder_button = OpenButton(
@@ -36,8 +39,12 @@ class LoadModLayout(QWidget):
         self.update_mod_info)
     open_folder_button = open_folder_button.initUI()
 
+    load_mod = QHBoxLayout()
+    load_mod.addWidget(drag_mod, 9)
+    load_mod.addWidget(dialog_mod, 1)
+
     load_mod_layout = QVBoxLayout()
-    load_mod_layout.addWidget(drag_file)
+    load_mod_layout.addLayout(load_mod)
     load_mod_layout.addWidget(load_mod_button)
     load_mod_layout.addWidget(open_folder_button)
 

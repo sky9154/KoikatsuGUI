@@ -1,6 +1,7 @@
 import sys
 import os
 import atexit
+import shutil
 import configparser
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMenuBar, QWidget, QStackedWidget, QHBoxLayout
 from PyQt6.QtGui import QIcon, QAction
@@ -47,25 +48,33 @@ class MainWindow(QMainWindow):
   def display_page(self, index):
     self.stack.setCurrentIndex(index)
 
+def cleanup():
+  temp_dir = getattr(sys, '_MEIPASS', None)
+  if temp_dir:
+    shutil.rmtree(temp_dir, ignore_errors=True)
 
 if __name__ == '__main__':
-  app = QApplication(sys.argv)
+  try:
+    app = QApplication(sys.argv)
 
-  main_config_path = os.path.join(os.getcwd(), 'assets', 'config',
-                                  'main_config.ini')
-  lock_file_path = os.path.join(os.getcwd(), 'app.lock')
+    main_config_path = os.path.join(os.getcwd(), 'assets', 'config',
+                                    'main_config.ini')
+    lock_file_path = os.path.join(os.getcwd(), 'app.lock')
 
-  config = configparser.ConfigParser()
-  config.read(main_config_path)
+    config = configparser.ConfigParser()
+    config.read(main_config_path)
 
-  config['General']['icon'] = os.path.join(config['Paths']['images'],
-                                           config['General']['icon'])
+    config['General']['icon'] = os.path.join(config['Paths']['images'],
+                                            config['General']['icon'])
 
-  lock_file = LockFile(app, config, lock_file_path)
-  lock_file.create()
-  atexit.register(lock_file.remove, lock_file_path)
+    lock_file = LockFile(app, config, lock_file_path)
+    lock_file.create()
+    atexit.register(lock_file.remove, lock_file_path)
 
-  window = MainWindow(config)
+    window = MainWindow(config)
 
-  window.show()
-  sys.exit(app.exec())
+    window.show()
+    sys.exit(app.exec())
+
+  finally:
+    cleanup()

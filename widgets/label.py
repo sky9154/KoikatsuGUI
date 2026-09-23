@@ -11,14 +11,14 @@ class CoverImage(QLabel):
 
     self.main_config = main_config
 
-    config = Config(self.main_config['Paths']['config'])
+    config = Config(self.main_config["Paths"]["config"])
 
-    self.widget_config = config.load_config('widget_config')
+    self.widget_config = config.load_config("widget_config")
     self.name = name
 
   def initUI(self):
-    images_path = self.main_config['Paths']['images']
-    image_name = self.widget_config['CoverImage'][self.name]
+    images_path = self.main_config["Paths"]["images"]
+    image_name = self.widget_config["CoverImage"][self.name]
     image_path = os.path.join(images_path, image_name)
 
     image = QPixmap(image_path)
@@ -42,7 +42,7 @@ class InfoLabel(QLabel):
     self.value = value
 
   def initUI(self):
-    self.setText(f'{self.value}：')
+    self.setText(f"{self.value}：")
     self.setFixedHeight(40)
     self.setFont(QFont(self.font().family(), 10))
 

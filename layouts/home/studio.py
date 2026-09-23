@@ -10,20 +10,20 @@ class StudioLayout(QWidget):
   def __init__(self, main_config):
     super().__init__()
 
-    config = Config(main_config['Paths']['config'])
-    widget_config = config.load_config('widget_config')
+    config = Config(main_config["Paths"]["config"])
+    widget_config = config.load_config("widget_config")
 
-    cover_image = CoverImage(main_config, 'studio')
+    cover_image = CoverImage(main_config, "studio")
     cover_image = cover_image.initUI()
 
-    studio_group = QGroupBox(widget_config['General']['studio_title'])
+    studio_group = QGroupBox(widget_config["General"]["studio_title"])
     studio_group.setFont(QFont(studio_group.font().family(), 12))
 
     studio_layout = QVBoxLayout()
 
-    for name, value in widget_config['StudioButton'].items():
-      button = OpenButton(main_config, value, 'Studio',
-                          name.replace('_button', ''))
+    for name, value in widget_config["StudioButton"].items():
+      button = OpenButton(main_config, value, "Studio",
+                          name.replace("_button", ""))
       button = button.initUI()
 
       studio_layout.addWidget(button)

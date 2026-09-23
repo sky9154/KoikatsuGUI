@@ -9,20 +9,20 @@ class ModInfoLayout(QWidget):
   def __init__(self, main_config):
     super().__init__()
 
-    config = Config(main_config['Paths']['config'])
-    widget_config = config.load_config('widget_config')
+    config = Config(main_config["Paths"]["config"])
+    widget_config = config.load_config("widget_config")
 
-    cover_image = CoverImage(main_config, 'mod_info')
+    cover_image = CoverImage(main_config, "mod_info")
     cover_image = cover_image.initUI()
 
-    mod_info_group = QGroupBox(widget_config['General']['mod_info_title'])
+    mod_info_group = QGroupBox(widget_config["General"]["mod_info_title"])
     mod_info_group.setFont(QFont(mod_info_group.font().family(), 12))
 
     mod_info_layout = QVBoxLayout()
 
     self.info_line_edits = {}
 
-    for name, value in widget_config['ModInfo'].items():
+    for name, value in widget_config["ModInfo"].items():
       info_label = InfoLabel(value)
       info_label = info_label.initUI()
 

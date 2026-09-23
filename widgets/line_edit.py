@@ -10,9 +10,9 @@ class DragFile(QLineEdit):
   def __init__(self, main_config):
     super().__init__()
 
-    config = Config(main_config['Paths']['config'])
+    config = Config(main_config["Paths"]["config"])
 
-    self.widget_config = config.load_config('widget_config')
+    self.widget_config = config.load_config("widget_config")
 
     self.setAcceptDrops(True)
     self.mod_path = None
@@ -22,26 +22,38 @@ class DragFile(QLineEdit):
     self.setFont(QFont(self.font().family(), 10))
     self.setCursor(Qt.CursorShape.CustomCursor)
     self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-    self.setPlaceholderText(self.widget_config['LoadMod']['drag_mod'])
-    self.setStyleSheet('''
+    self.setPlaceholderText(self.widget_config["LoadMod"]["drag_mod"])
+    self.setStyleSheet("""
       border : 0;
       border-radius: 5px;
-    ''')
+    """)
     return self
 
   def is_mod(self, mod_path):
     mod_extension = os.path.splitext(mod_path)[1]
-    mod_extensions = ['.zip', 'rar', '7z', '.zipmod']
+    mod_extensions = [".zip", "rar", "7z", ".zipmod"]
 
     return mod_extension in mod_extensions
 
-  def dragEnterEvent(self, event: QDragEnterEvent):
-    if event.mimeData().hasUrls():
+  def dragEnterEvent(self, a0: QDragEnterEvent | None):
+    if a0 is None:
+      return
+
+    event = a0
+    mime_data = event.mimeData()
+
+    if mime_data is not None and mime_data.hasUrls():
       event.acceptProposedAction()
 
-  def dropEvent(self, event: QDropEvent):
-    if event.mimeData().hasUrls():
-      self.mod_path = event.mimeData().urls()[0].toLocalFile()
+  def dropEvent(self, a0: QDropEvent | None):
+    if a0 is None:
+      return
+
+    event = a0
+    mime_data = event.mimeData()
+
+    if mime_data is not None and mime_data.hasUrls():
+      self.mod_path = mime_data.urls()[0].toLocalFile()
 
       if self.is_mod(self.mod_path):
         self.setText(self.mod_path)
@@ -64,9 +76,9 @@ class InfoLineEdit(QLineEdit):
     self.setCursor(Qt.CursorShape.CustomCursor)
     self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
     self.setPlaceholderText(None)
-    self.setStyleSheet('''
+    self.setStyleSheet("""
       border : 0;
       border-radius: 5px;
-    ''')
+    """)
 
     return self

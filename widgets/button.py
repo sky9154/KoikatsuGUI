@@ -12,10 +12,10 @@ class OpenButton(QPushButton):
 
     self.main_config = main_config
 
-    config = Config(self.main_config['Paths']['config'])
+    config = Config(self.main_config["Paths"]["config"])
 
-    self.widget_config = config.load_config('widget_config')
-    self.event_config = config.load_config('event_config')
+    self.widget_config = config.load_config("widget_config")
+    self.event_config = config.load_config("event_config")
     self.name = name
     self.event = event
     self.value = value
@@ -26,7 +26,7 @@ class OpenButton(QPushButton):
     self.setFont(QFont(self.font().family(), 10))
     self.setCursor(Qt.CursorShape.PointingHandCursor)
     self.clicked.connect(lambda: self.open_mod_folder()
-                         if self.event == 'mod_folder' else self.open())
+                         if self.event == "mod_folder" else self.open())
 
     return self
 
@@ -37,7 +37,7 @@ class OpenButton(QPushButton):
   def open_mod_folder(self):
     if self.value:
       file = File(self.main_config)
-      file.open('mod_folder', self.value['author'])
+      file.open("mod_folder", self.value["author"])
 
 
 class LoadModButton(QPushButton):
@@ -47,9 +47,9 @@ class LoadModButton(QPushButton):
 
     self.main_config = main_config
 
-    config = Config(self.main_config['Paths']['config'])
+    config = Config(self.main_config["Paths"]["config"])
 
-    self.widget_config = config.load_config('widget_config')
+    self.widget_config = config.load_config("widget_config")
     self.name = name
     self.mod_info = mod_info
     self.mod_path = mod_path
@@ -59,7 +59,7 @@ class LoadModButton(QPushButton):
     self.setFixedHeight(50)
     self.setFont(QFont(self.font().family(), 10))
     self.setCursor(Qt.CursorShape.PointingHandCursor)
-    self.clicked.connect(lambda: self.load_mod())
+    self.clicked.connect(self.load_mod)
 
     return self
 
@@ -80,35 +80,36 @@ class DialogModButton(QPushButton):
 
     self.main_config = main_config
 
-    config = Config(self.main_config['Paths']['config'])
+    config = Config(self.main_config["Paths"]["config"])
 
-    self.widget_config = config.load_config('widget_config')
+    self.widget_config = config.load_config("widget_config")
     self.drag_mod = drag_mod
 
   def initUI(self):
-    images_path = self.main_config['Paths']['images']
-    icon_name = self.widget_config['CoverImage']['dialog_mod']
+    images_path = self.main_config["Paths"]["images"]
+    icon_name = self.widget_config["CoverImage"]["dialog_mod"]
     icon_path = os.path.join(images_path, icon_name)
     icon = QIcon(icon_path)
 
     self.setFixedHeight(50)
     self.setIconSize(QSize(26, 30))
     self.setIcon(icon)
-    self.setStyleSheet('''
+    self.setStyleSheet("""
       border : 0;
       background: transparent;
-    ''')
+    """)
     self.setCursor(Qt.CursorShape.PointingHandCursor)
-    self.clicked.connect(lambda: self.show_mod_dialog())
+    self.clicked.connect(self.show_mod_dialog)
 
     return self
 
   def show_mod_dialog(self):
     mod_dialog = QFileDialog()
-    mod_dialog.setWindowTitle(self.widget_config['General']['dialog_mod_title'])
+    mod_dialog.setWindowTitle(
+        self.widget_config["General"]["dialog_mod_title"])
     mod_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
 
-    mod_dialog.setNameFilter('Mod Files (*.zip *.rar *.7z *.zipmod)')
+    mod_dialog.setNameFilter("Mod Files (*.zip *.rar *.7z *.zipmod)")
     mod_dialog.fileSelected.connect(self.print_mod_path)
     mod_dialog.setDirectory(os.path.dirname(self.drag_mod.text()))
     mod_dialog.exec()
